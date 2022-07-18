@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @SpringBootApplication
 public class InotebookApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(InotebookApplication.class, args);
 	}

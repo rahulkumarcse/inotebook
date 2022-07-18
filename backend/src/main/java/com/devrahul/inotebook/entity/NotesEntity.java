@@ -4,10 +4,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.sql.Date;
+import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @NoArgsConstructor
 @Getter
@@ -17,9 +19,17 @@ import java.sql.Date;
 public class NotesEntity {
 
     @Id
+    private String id;
+
+    @NotNull(message = "Title cannot be null")
     private String title;
+
+    @NotNull(message = "description cannot be null")
     private  String description;
+
+    @NotNull(message = "tag cannot be null")
     private  String tag;
+
     private Date date;
 
 }

@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class NotesService {
 
@@ -15,5 +17,9 @@ public class NotesService {
     public String saveNotes(NotesEntity notesEntity){
         notesRepository.save(notesEntity);
         return "Notes Added";
+    }
+
+    public List<NotesEntity> getAllNotes(){
+        return notesRepository.findAll();
     }
 }
