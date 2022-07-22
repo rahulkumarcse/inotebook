@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 
 import javax.xml.crypto.Data;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -17,16 +19,38 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public UserEntity registerUser(UserSignup userSignup){
-        if(DataValidation.emailValidation(userSignup.getEmail()) && DataValidation.passwordValidation(userSignup.getPassword()) && DataValidation.nameValidation(userSignup.getName())){
-            UserEntity newUser= new UserEntity();
-            newUser.setName(userSignup.getName());
-            newUser.setEmail(userSignup.getEmail());
-            newUser.setPassword(userSignup.getPassword());
-            newUser.setDate(new Date());
-         userRepository.save(newUser);
-return  newUser;
+    public List<Object> registerUser(UserSignup userSignup){
+        List<Object> regResult= new ArrayList<>();
+
+        if(DataValidation.emailValidation(userSignup.getEmail()) && DataValidation.passwordValidation(userSignup.getPassword()) && DataValidation.nameValidation(userSignup.getName()) ){
+            if( userRepository.findByEmail(userSignup.getEmail()).isEmpty()){
+
+                try{
+                    UserEntity newUser= new UserEntity();
+                    newUser.setName(userSignup.getName());
+                    newUser.setEmail(userSignup.getEmail());
+                    newUser.setPassword(userSignup.getPassword());
+                    newUser.setDate(new Date());
+                    userRepository.save(newUser);
+                    regResult.add(1);
+                    regResult.add(newUser);
+                    return  regResult;
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                    regResult.add(0);
+                    regResult.add(e.getMessage());
+                    return regResult;
+                }
+            }
+            else {
+                regResult.add(0);
+                regResult.add("Email already registered");
+            }
+
         }
-        else return null;
+      regResult.add(0);
+        regResult.add("Please provide correct details to register");
+        return  regResult;
     }
 }

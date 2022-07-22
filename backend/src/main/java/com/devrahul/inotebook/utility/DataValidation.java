@@ -5,9 +5,9 @@ import java.util.Arrays;
 public class DataValidation {
     public  static  boolean nameValidation(String name){
         boolean validation = false;
-        if(name.length() >=7 && !name.contains(" ")){
+        if(name.length() >=7 && !name.endsWith(" ")){
             for(char c : name.toCharArray()){
-                if(((int) c>=65 && (int) c <=90) ||  ((int) c>=97 && (int) c <=122) ){
+                if(((int) c>=65 && (int) c <=90) ||  ((int) c>=97 && (int) c <=122) || c== ' ' ){
                     validation = true;
                 }
                else {

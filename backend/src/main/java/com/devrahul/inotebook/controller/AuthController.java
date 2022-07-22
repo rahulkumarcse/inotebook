@@ -9,6 +9,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/api/v1/auth")
 public class AuthController {
@@ -20,14 +22,12 @@ public class AuthController {
         return ResponseEntity.ok("Sent");
     }
 
-    @PostMapping("/regUser")
+    @PostMapping("/createUser")
     private  ResponseEntity<?> registerUser(@RequestBody UserSignup userReg){
-        UserEntity entity_entity=userService.registerUser(userReg);
-        if(entity_entity!=null){
-            return new ResponseEntity<UserEntity>(entity_entity, HttpStatus.OK);
+        List<Object> regResult = userService.registerUser(userReg);
+        if(regResult.get(0).toString() .equals("1")){
+            return new ResponseEntity<>(regResult.get(1),HttpStatus.OK);
         }
-        else {
-            return  new ResponseEntity<>("Please provide valid details for registration",HttpStatus.BAD_REQUEST);
-        }
+        else return new ResponseEntity<>(regResult.get(1),HttpStatus.BAD_REQUEST);
     }
 }
