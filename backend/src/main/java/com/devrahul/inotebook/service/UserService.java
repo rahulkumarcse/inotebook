@@ -4,15 +4,13 @@ import com.devrahul.inotebook.entity.UserEntity;
 import com.devrahul.inotebook.model.UserSignup;
 import com.devrahul.inotebook.repository.UserRepository;
 import com.devrahul.inotebook.utility.DataValidation;
+import com.devrahul.inotebook.utility.security.Security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.xml.crypto.Data;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -29,11 +27,12 @@ public class UserService {
                     UserEntity newUser= new UserEntity();
                     newUser.setName(userSignup.getName());
                     newUser.setEmail(userSignup.getEmail());
-                    newUser.setPassword(userSignup.getPassword());
+                    newUser.setPassword(Security.passwordEncoding(userSignup.getPassword()));
                     newUser.setDate(new Date());
                     userRepository.save(newUser);
                     regResult.add(1);
-                    regResult.add(newUser);
+                    regResult.add(Security.jwtTokenGenerator(newUser.getEmail()));
+
                     return  regResult;
                 }
                 catch (Exception e){
