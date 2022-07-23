@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface UserRepository extends MongoRepository<UserEntity, String> {
     @Query(value = "{'email' : ?0}")
-    Optional<UserEntity> findByEmail(String email);
+    UserEntity findByEmail(String email);
 }

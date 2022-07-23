@@ -1,6 +1,7 @@
 package com.devrahul.inotebook.service;
 
 import com.devrahul.inotebook.entity.UserEntity;
+import com.devrahul.inotebook.model.LoginUserDTO;
 import com.devrahul.inotebook.model.UserSignup;
 import com.devrahul.inotebook.repository.UserRepository;
 import com.devrahul.inotebook.utility.DataValidation;
@@ -21,7 +22,7 @@ public class UserService {
         List<Object> regResult= new ArrayList<>();
 
         if(DataValidation.emailValidation(userSignup.getEmail()) && DataValidation.passwordValidation(userSignup.getPassword()) && DataValidation.nameValidation(userSignup.getName()) ){
-            if( userRepository.findByEmail(userSignup.getEmail()).isEmpty()){
+            if( userRepository.findByEmail(userSignup.getEmail())==null){
 
                 try{
                     UserEntity newUser= new UserEntity();
@@ -51,5 +52,36 @@ public class UserService {
       regResult.add(0);
         regResult.add("Please provide correct details to register");
         return  regResult;
+    }
+
+    public List<Object> authUser(LoginUserDTO loginUserDTO){
+        List<Object> regResult = new ArrayList<Object>();
+        if(DataValidation.emailValidation(loginUserDTO.getEmail())&&DataValidation.passwordValidation(loginUserDTO.getPassword())){
+            try{
+                UserEntity user = userRepository.findByEmail(loginUserDTO.getEmail());
+                boolean passwordVerify= Security.passwordMatcher(loginUserDTO.getPassword(),user.getPassword());
+                if(!passwordVerify){
+                    regResult.add(0);
+                    regResult.add("Email or Password doesn't match");
+                    return  regResult;
+                }
+                else {
+                    String authToken=Security.jwtTokenGenerator(user.getEmail());
+                    regResult.add(1);
+                    regResult.add(authToken);
+                    return regResult;
+                }
+            }
+            catch (Exception e){
+                regResult.add(0);
+                regResult.add(e.getMessage());
+                return  regResult;
+            }
+        }
+
+            regResult.add(0);
+            regResult.add("Please provide valid details to login");
+            return  regResult;
+
     }
 }

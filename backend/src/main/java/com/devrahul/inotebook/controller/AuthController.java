@@ -1,6 +1,7 @@
 package com.devrahul.inotebook.controller;
 
 import com.devrahul.inotebook.entity.UserEntity;
+import com.devrahul.inotebook.model.LoginUserDTO;
 import com.devrahul.inotebook.model.UserSignup;
 import com.devrahul.inotebook.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +18,19 @@ public class AuthController {
 
     @Autowired
     UserService userService;
-    @PostMapping("/login")
-    private ResponseEntity<Object> sendDummy(){
-        return ResponseEntity.ok("Sent");
-    }
 
-    @PostMapping("/createUser")
+    @PostMapping("/addUser")
     private  ResponseEntity<?> registerUser(@RequestBody UserSignup userReg){
         List<Object> regResult = userService.registerUser(userReg);
+        if(regResult.get(0).toString() .equals("1")){
+            return new ResponseEntity<>(regResult.get(1),HttpStatus.OK);
+        }
+        else return new ResponseEntity<>(regResult.get(1),HttpStatus.BAD_REQUEST);
+    }
+
+    @PostMapping("/login")
+    private  ResponseEntity<?> authUser(LoginUserDTO loginUserDTO){
+        List<Object> regResult = userService.authUser(loginUserDTO);
         if(regResult.get(0).toString() .equals("1")){
             return new ResponseEntity<>(regResult.get(1),HttpStatus.OK);
         }

@@ -30,7 +30,7 @@ public class EncryptionTest {
     }
     @Test
     public void checkJwtToken(){
-        String name ="dummy";
+        String name ="dum@my";
         String token = Security.jwtTokenGenerator(name);
         System.out.println(token);
     }
