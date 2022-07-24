@@ -105,7 +105,7 @@ public class UserService {
             }
         }
         regResult.add(0);
-        regResult.add("Please provide valid authentication token");
+        regResult.add("Please authenticate using valid token");
         return regResult;
     }
 }
