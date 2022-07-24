@@ -1,5 +1,4 @@
 package com.devrahul.inotebook.service;
-
 import com.devrahul.inotebook.entity.UserEntity;
 import com.devrahul.inotebook.model.GetUser;
 import com.devrahul.inotebook.model.LoginUserDTO;
@@ -9,7 +8,6 @@ import com.devrahul.inotebook.utility.DataValidation;
 import com.devrahul.inotebook.utility.security.Security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,7 +22,6 @@ public class UserService {
 
         if (DataValidation.emailValidation(userSignup.getEmail()) && DataValidation.passwordValidation(userSignup.getPassword()) && DataValidation.nameValidation(userSignup.getName())) {
             if (userRepository.findByEmail(userSignup.getEmail()) == null) {
-
                 try {
                     UserEntity newUser = new UserEntity();
                     newUser.setName(userSignup.getName());

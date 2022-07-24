@@ -1,6 +1,7 @@
 package com.devrahul.inotebook.controller;
 
 import com.devrahul.inotebook.entity.NotesEntity;
+import com.devrahul.inotebook.model.AddNotesDto;
 import com.devrahul.inotebook.service.NotesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,24 +18,15 @@ public class NotesController {
 
     @Autowired
     public NotesService notesService;
-    @PostMapping("/saveNotes")
-    private ResponseEntity saveNotes(@RequestBody   NotesEntity notes) throws Exception{
-            try {
-                notesService.saveNotes(notes);
-                return ResponseEntity.ok(notes);
-            }
-            catch (Exception e) {
-                return new ResponseEntity<>("Please enter correct input", HttpStatus.BAD_REQUEST);
-            }
+
+    @PostMapping("/addNote")
+    private  ResponseEntity<?> addNote(@RequestHeader String token, @RequestBody AddNotesDto addNotesDto){
+
+        List<Object> regResult = notesService.addNotes(token,addNotesDto);
+        if(regResult.get(0).toString() .equals("1")){
+            return new ResponseEntity<>(regResult.get(1),HttpStatus.OK);
+        }
+        else return new ResponseEntity<>(regResult.get(1),HttpStatus.BAD_REQUEST);
     }
-    @GetMapping("/allNotes")
-    private  ResponseEntity<?> getAllNotes(){
-        List<NotesEntity> notes = notesService.getAllNotes();
-
-        return ResponseEntity.ok(notes);
-    }
-
-
-
 
 }
