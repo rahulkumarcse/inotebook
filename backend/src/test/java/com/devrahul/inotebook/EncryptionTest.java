@@ -32,7 +32,8 @@ public class EncryptionTest {
     public void checkJwtToken(){
         String name ="dum@my";
         String token = Security.jwtTokenGenerator(name);
-        System.out.println(token);
+        String reverseName=Security.getUserEmailFromJwtToken(token+"s");
+        System.out.println(reverseName);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.devrahul.inotebook.service;
 
 import com.devrahul.inotebook.entity.UserEntity;
+import com.devrahul.inotebook.model.GetUser;
 import com.devrahul.inotebook.model.LoginUserDTO;
 import com.devrahul.inotebook.model.UserSignup;
 import com.devrahul.inotebook.repository.UserRepository;
@@ -18,14 +19,14 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public List<Object> registerUser(UserSignup userSignup){
-        List<Object> regResult= new ArrayList<>();
+    public List<Object> registerUser(UserSignup userSignup) {
+        List<Object> regResult = new ArrayList<>();
 
-        if(DataValidation.emailValidation(userSignup.getEmail()) && DataValidation.passwordValidation(userSignup.getPassword()) && DataValidation.nameValidation(userSignup.getName()) ){
-            if( userRepository.findByEmail(userSignup.getEmail())==null){
+        if (DataValidation.emailValidation(userSignup.getEmail()) && DataValidation.passwordValidation(userSignup.getPassword()) && DataValidation.nameValidation(userSignup.getName())) {
+            if (userRepository.findByEmail(userSignup.getEmail()) == null) {
 
-                try{
-                    UserEntity newUser= new UserEntity();
+                try {
+                    UserEntity newUser = new UserEntity();
                     newUser.setName(userSignup.getName());
                     newUser.setEmail(userSignup.getEmail());
                     newUser.setPassword(Security.passwordEncoding(userSignup.getPassword()));
@@ -34,54 +35,77 @@ public class UserService {
                     regResult.add(1);
                     regResult.add(Security.jwtTokenGenerator(newUser.getEmail()));
 
-                    return  regResult;
-                }
-                catch (Exception e){
+                    return regResult;
+                } catch (Exception e) {
                     e.printStackTrace();
                     regResult.add(0);
                     regResult.add(e.getMessage());
                     return regResult;
                 }
-            }
-            else {
+            } else {
                 regResult.add(0);
                 regResult.add("Email already registered");
             }
 
         }
-      regResult.add(0);
+        regResult.add(0);
         regResult.add("Please provide correct details to register");
-        return  regResult;
+        return regResult;
     }
 
-    public List<Object> authUser(LoginUserDTO loginUserDTO){
+    public List<Object> authUser(LoginUserDTO loginUserDTO) {
         List<Object> regResult = new ArrayList<Object>();
-        if(DataValidation.emailValidation(loginUserDTO.getEmail())&&DataValidation.passwordValidation(loginUserDTO.getPassword())){
-            try{
+        if (DataValidation.emailValidation(loginUserDTO.getEmail()) && DataValidation.passwordValidation(loginUserDTO.getPassword())) {
+            try {
                 UserEntity user = userRepository.findByEmail(loginUserDTO.getEmail());
-                boolean passwordVerify= Security.passwordMatcher(loginUserDTO.getPassword(),user.getPassword());
-                if(!passwordVerify){
+                boolean passwordVerify = Security.passwordMatcher(loginUserDTO.getPassword(), user.getPassword());
+                if (!passwordVerify) {
                     regResult.add(0);
                     regResult.add("Email or Password doesn't match");
-                    return  regResult;
-                }
-                else {
-                    String authToken=Security.jwtTokenGenerator(user.getEmail());
+                    return regResult;
+                } else {
+                    String authToken = Security.jwtTokenGenerator(user.getEmail());
                     regResult.add(1);
                     regResult.add(authToken);
                     return regResult;
                 }
-            }
-            catch (Exception e){
+            } catch (Exception e) {
                 regResult.add(0);
                 regResult.add(e.getMessage());
-                return  regResult;
+                return regResult;
             }
         }
 
-            regResult.add(0);
-            regResult.add("Please provide valid details to login");
-            return  regResult;
+        regResult.add(0);
+        regResult.add("Please provide valid details to login");
+        return regResult;
 
+    }
+
+    public List<Object> getUser(String token) {
+        String userEmail = Security.getUserEmailFromJwtToken(token);
+        List<Object> regResult = new ArrayList<Object>();
+
+        if (userEmail != null) {
+            try {
+                UserEntity userEntity = userRepository.findByEmail(userEmail);
+                GetUser user = new GetUser();
+                user.setId(userEntity.getId());
+                user.setEmail(userEmail);
+                user.setDate(userEntity.getDate());
+                user.setName(userEntity.getName());
+                regResult.add(1);
+                regResult.add(user);
+                return regResult;
+
+            } catch (Exception e) {
+                regResult.add(0);
+                regResult.add(e.getMessage());
+                return regResult;
+            }
+        }
+        regResult.add(0);
+        regResult.add("Please provide valid authentication token");
+        return regResult;
     }
 }
