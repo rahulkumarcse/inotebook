@@ -44,4 +44,13 @@ public class NotesController {
         }
         else return new ResponseEntity<>(regResult.get(1),HttpStatus.BAD_REQUEST);
     }
+
+    @DeleteMapping("/deleteNote/{noteId}")
+    private  ResponseEntity<?> deleteNote(@RequestHeader String token, @RequestParam String noteId){
+        List<Object> regResult = notesService.deleteNote(token,noteId);
+        if(regResult.get(0).toString() .equals("1")){
+            return new ResponseEntity<>(regResult.get(1),HttpStatus.OK);
+        }
+        else return new ResponseEntity<>(regResult.get(1),HttpStatus.BAD_REQUEST);
+    }
 }

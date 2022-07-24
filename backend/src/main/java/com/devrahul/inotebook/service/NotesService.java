@@ -105,4 +105,28 @@ public class NotesService {
           return regResult;
       }
   }
+
+  public  List<Object> deleteNote(String token,String noteId){
+      List<Object> regResult = new ArrayList<>();
+      String userId = Security.getUserIdFromJwtToken(token);
+      try{
+          NotesEntity notes = notesRepository.findById(noteId).get();
+          if(notes.getUser().equals(userId)){
+             notesRepository.delete(notes);
+              regResult.add(1);
+              regResult.add("Note deleted");
+              return  regResult;
+          }
+          else{
+              regResult.add(0);
+              regResult.add("Not Allowed");
+              return  regResult;
+          }
+      }
+      catch (Exception e){
+          regResult.add(0);
+          regResult.add("Not found");
+          return regResult;
+      }
+  }
 }
