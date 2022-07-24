@@ -3,7 +3,6 @@ package com.devrahul.inotebook.service;
 import com.devrahul.inotebook.entity.NotesEntity;
 import com.devrahul.inotebook.entity.UserEntity;
 import com.devrahul.inotebook.model.AddNotesDto;
-import com.devrahul.inotebook.model.GetUser;
 import com.devrahul.inotebook.repository.NotesRepository;
 import com.devrahul.inotebook.repository.UserRepository;
 import com.devrahul.inotebook.utility.security.Security;
@@ -25,16 +24,16 @@ public class NotesService {
   public List<Object> addNotes(String token , AddNotesDto addNotesDto){
       List<Object> regResult = new ArrayList<Object>();
       if(addNotesDto.getTitle().length()>4 && addNotesDto.getDescription().length() >8 &&addNotesDto.getTag().length() >4){
-          String userEmail = Security.getUserEmailFromJwtToken(token);
-          if (userEmail != null) {
+          String userId = Security.getUserIdFromJwtToken(token);
+          if (userId != null) {
               try {
-                  UserEntity userEntity =  userRepository.findByEmail(userEmail);
+                  UserEntity userEntity =  userRepository.findById(userId).get();
                   NotesEntity notes = new NotesEntity();
                   notes.setDate(new Date());
                   notes.setDescription(addNotesDto.getDescription());
                   notes.setTag(addNotesDto.getTag());
                   notes.setTitle(addNotesDto.getTitle());
-                  notes.setUser(userEntity.getId());
+                  notes.setUser(userId);
                   notesRepository.save(notes);
                   regResult.add(1);
                   regResult.add(notes);
@@ -54,6 +53,32 @@ public class NotesService {
       regResult.add(0);
       regResult.add("Please provide valid details to add new note");
       return regResult;
+
+  }
+
+  public List<Object> getAllNotes(String token){
+      List<Object> regResult = new ArrayList<Object>();
+
+      try {
+          String userId = Security.getUserIdFromJwtToken(token);
+          if(userId!=null){
+              List<NotesEntity> getAllNotes = notesRepository.findNotesByUser(userId);
+              regResult.add(1);
+          regResult.add(getAllNotes);
+          return regResult;
+          }
+          else {
+              regResult.add(0);
+              regResult.add("Please authenticate using valid token");
+              return regResult;
+          }
+      }
+      catch (Exception e){
+          regResult.add(0);
+          regResult.add(e.getMessage());
+          return regResult;
+      }
+
 
   }
 }

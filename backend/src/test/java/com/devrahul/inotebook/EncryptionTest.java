@@ -3,7 +3,6 @@ package com.devrahul.inotebook;
 import com.devrahul.inotebook.utility.security.Security;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.internal.matchers.Equals;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.Assert;
@@ -32,7 +31,7 @@ public class EncryptionTest {
     public void checkJwtToken(){
         String name ="dum@my";
         String token = Security.jwtTokenGenerator(name);
-        String reverseName=Security.getUserEmailFromJwtToken(token+"s");
+        String reverseName=Security.getUserIdFromJwtToken(token+"s");
         System.out.println(reverseName);
     }
 

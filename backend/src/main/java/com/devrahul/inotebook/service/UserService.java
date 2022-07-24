@@ -30,7 +30,7 @@ public class UserService {
                     newUser.setDate(new Date());
                     userRepository.save(newUser);
                     regResult.add(1);
-                    regResult.add(Security.jwtTokenGenerator(newUser.getEmail()));
+                    regResult.add(Security.jwtTokenGenerator(newUser.getId()));
 
                     return regResult;
                 } catch (Exception e) {
@@ -61,7 +61,7 @@ public class UserService {
                     regResult.add("Email or Password doesn't match");
                     return regResult;
                 } else {
-                    String authToken = Security.jwtTokenGenerator(user.getEmail());
+                    String authToken = Security.jwtTokenGenerator(user.getId());
                     regResult.add(1);
                     regResult.add(authToken);
                     return regResult;
@@ -80,15 +80,15 @@ public class UserService {
     }
 
     public List<Object> getUser(String token) {
-        String userEmail = Security.getUserEmailFromJwtToken(token);
+        String userID = Security.getUserIdFromJwtToken(token);
         List<Object> regResult = new ArrayList<Object>();
 
-        if (userEmail != null) {
+        if (userID != null) {
             try {
-                UserEntity userEntity = userRepository.findByEmail(userEmail);
+                UserEntity userEntity =  userRepository.findById(userID).get();
                 GetUser user = new GetUser();
-                user.setId(userEntity.getId());
-                user.setEmail(userEmail);
+                user.setId(userID);
+                user.setEmail(userEntity.getEmail());
                 user.setDate(userEntity.getDate());
                 user.setName(userEntity.getName());
                 regResult.add(1);

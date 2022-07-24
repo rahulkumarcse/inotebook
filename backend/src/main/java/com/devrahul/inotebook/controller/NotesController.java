@@ -21,8 +21,15 @@ public class NotesController {
 
     @PostMapping("/addNote")
     private  ResponseEntity<?> addNote(@RequestHeader String token, @RequestBody AddNotesDto addNotesDto){
-
         List<Object> regResult = notesService.addNotes(token,addNotesDto);
+        if(regResult.get(0).toString() .equals("1")){
+            return new ResponseEntity<>(regResult.get(1),HttpStatus.OK);
+        }
+        else return new ResponseEntity<>(regResult.get(1),HttpStatus.BAD_REQUEST);
+    }
+    @GetMapping("/getNotes")
+    private  ResponseEntity<?> getNotes(@RequestHeader String token){
+        List<Object> regResult = notesService.getAllNotes(token);
         if(regResult.get(0).toString() .equals("1")){
             return new ResponseEntity<>(regResult.get(1),HttpStatus.OK);
         }

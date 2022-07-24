@@ -28,14 +28,13 @@ public class Security implements Serializable {
 
    public  static String jwtTokenGenerator(String userData){
        Map<String, Object> claims = new HashMap<>();
-       System.out.println(JWT_SECRET);
        String jwtToken = Jwts.builder().setClaims(claims).setSubject(userData).setIssuedAt(new Date(System.currentTimeMillis()))
                .setExpiration(new Date(System.currentTimeMillis() + 5*60*60 * 1000))
                .signWith(SignatureAlgorithm.HS512, JWT_SECRET).compact();
        return jwtToken;
    }
 
-    public static String getUserEmailFromJwtToken(String token) {
+    public static String getUserIdFromJwtToken(String token) {
       try{
           return Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(token).getBody().getSubject();
       }
