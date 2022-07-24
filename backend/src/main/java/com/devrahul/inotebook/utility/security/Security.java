@@ -1,11 +1,9 @@
 package com.devrahul.inotebook.utility.security;
 
-
 import io.jsonwebtoken.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;

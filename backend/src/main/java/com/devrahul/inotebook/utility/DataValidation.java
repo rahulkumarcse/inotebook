@@ -1,7 +1,5 @@
 package com.devrahul.inotebook.utility;
 
-import java.util.Arrays;
-
 public class DataValidation {
     public  static  boolean nameValidation(String name){
         boolean validation = false;
