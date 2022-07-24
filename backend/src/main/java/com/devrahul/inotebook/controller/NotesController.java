@@ -36,4 +36,12 @@ public class NotesController {
         else return new ResponseEntity<>(regResult.get(1),HttpStatus.BAD_REQUEST);
     }
 
+    @PutMapping("/updateNote/{noteId}")
+    private  ResponseEntity<?> updateNote(@RequestHeader String token, @RequestParam String notesId ,@RequestBody AddNotesDto addNotesDto){
+        List<Object> regResult = notesService.updateNotes(token,notesId,addNotesDto);
+        if(regResult.get(0).toString() .equals("1")){
+            return new ResponseEntity<>(regResult.get(1),HttpStatus.OK);
+        }
+        else return new ResponseEntity<>(regResult.get(1),HttpStatus.BAD_REQUEST);
+    }
 }

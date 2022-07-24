@@ -78,7 +78,31 @@ public class NotesService {
           regResult.add(e.getMessage());
           return regResult;
       }
-
-
+  }
+  public  List<Object> updateNotes(String token ,String notesId, AddNotesDto addNotesDto){
+      List<Object> regResult = new ArrayList<>();
+      String userId = Security.getUserIdFromJwtToken(token);
+      try{
+          NotesEntity notes = notesRepository.findById(notesId).get();
+          if(notes.getUser().equals(userId)){
+              notes.setTitle(addNotesDto.getTitle());
+              notes.setDescription(addNotesDto.getDescription());
+              notes.setTag(addNotesDto.getTag());
+              notesRepository.save(notes);
+              regResult.add(1);
+              regResult.add(notes);
+              return  regResult;
+          }
+          else{
+              regResult.add(0);
+              regResult.add("Not Allowed");
+              return  regResult;
+          }
+      }
+      catch (Exception e){
+          regResult.add(0);
+          regResult.add("Not found");
+          return regResult;
+      }
   }
 }
