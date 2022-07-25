@@ -1,8 +1,22 @@
 import './App.css';
+import {BrowserRouter as Router , Routes, Route} from 'react-router-dom';
+import Navbar from './components/Navbar';
 
 function App() {
   return (
-    <h1>This is my react app</h1>
+    <>
+    <Router>
+    <Navbar/>
+    <Routes>
+    <Route exact path="/" element={<></>}></Route>
+    <Route exact path="/" element={<></>}></Route>
+
+    <Route exact path="/" element={<></>}></Route>
+
+    </Routes>
+    </Router>
+    
+    </>
   );
 }
 
