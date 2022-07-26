@@ -19,6 +19,47 @@ const Notestate = (props) =>{
             "tag": "Dummy Notes",
             "date": "2022-07-24T12:30:28.543+00:00"
           }
+          ,
+          {
+            "id": "62dd3b649d642d7de7c788b3",
+            "user": "62dd3abb9d642d7de7c788b1",
+            "title": "Dummy Notes",
+            "description": "This is dummy notes",
+            "tag": "Dummy Notes",
+            "date": "2022-07-24T12:30:28.543+00:00"
+          },
+          {
+            "id": "62dd3b649d642d7de7c788b3",
+            "user": "62dd3abb9d642d7de7c788b1",
+            "title": "Dummy Notes",
+            "description": "This is dummy notes",
+            "tag": "Dummy Notes",
+            "date": "2022-07-24T12:30:28.543+00:00"
+          },
+          {
+            "id": "62dd3b649d642d7de7c788b3",
+            "user": "62dd3abb9d642d7de7c788b1",
+            "title": "Dummy Notes",
+            "description": "This is dummy notes",
+            "tag": "Dummy Notes",
+            "date": "2022-07-24T12:30:28.543+00:00"
+          },
+          {
+            "id": "62dd3b649d642d7de7c788b3",
+            "user": "62dd3abb9d642d7de7c788b1",
+            "title": "Dummy Notes",
+            "description": "This is dummy notes",
+            "tag": "Dummy Notes",
+            "date": "2022-07-24T12:30:28.543+00:00"
+          },
+          {
+            "id": "62dd3b649d642d7de7c788b3",
+            "user": "62dd3abb9d642d7de7c788b1",
+            "title": "Dummy Notes",
+            "description": "This is dummy notes",
+            "tag": "Dummy Notes",
+            "date": "2022-07-24T12:30:28.543+00:00"
+          }
     ]
     const[notes,setNotes] = useState(notesInitial);
     return(
