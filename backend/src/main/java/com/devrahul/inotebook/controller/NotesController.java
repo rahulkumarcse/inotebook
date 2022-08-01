@@ -4,13 +4,14 @@ import com.devrahul.inotebook.model.AddNotesDto;
 import com.devrahul.inotebook.service.NotesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/notes")
+@RequestMapping(value = "/api/v1/notes")
 @CrossOrigin("*")
 public class NotesController {
 
@@ -35,7 +36,7 @@ public class NotesController {
     }
 
     @PutMapping("/updateNote/{noteId}")
-    private  ResponseEntity<?> updateNote(@RequestHeader String token, @RequestParam String notesId ,@RequestBody AddNotesDto addNotesDto){
+    private  ResponseEntity<?> updateNote(@RequestHeader String token, @PathVariable String notesId ,@RequestBody AddNotesDto addNotesDto){
         List<Object> regResult = notesService.updateNotes(token,notesId,addNotesDto);
         if(regResult.get(0).toString() .equals("1")){
             return new ResponseEntity<>(regResult.get(1),HttpStatus.OK);
@@ -44,7 +45,7 @@ public class NotesController {
     }
 
     @DeleteMapping("/deleteNote/{noteId}")
-    private  ResponseEntity<?> deleteNote(@RequestHeader String token, @RequestParam String noteId){
+    private  ResponseEntity<?> deleteNote(@RequestHeader String token, @PathVariable String noteId){
         List<Object> regResult = notesService.deleteNote(token,noteId);
         if(regResult.get(0).toString() .equals("1")){
             return new ResponseEntity<>(regResult.get(1),HttpStatus.OK);
