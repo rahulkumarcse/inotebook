@@ -5,6 +5,7 @@ import Home from './components/Home';
 import About from './components/About';
 import NoteContext from './context/note/NoteContext';
 import Notestate from './context/note/NoteState';
+import  Alert  from './components/Alert';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
    <Notestate>
     <Router>
     <Navbar/>
+    <Alert message="Hello rahul , this is beginning of your app"/>
     <div className='container' >
     <Routes>
     <Route exact path="/" element={<Home/>}></Route>
