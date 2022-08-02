@@ -47,21 +47,21 @@ function Notes() {
               <form className='my-3'>
                 <div className="mb-3">
                   <label htmlFor="title" className="form-label">Titles</label>
-                  <input type="text" className="form-control" id="etitle" name="etitle" value={note.etitle} aria-describedby="emailHelp" onChange={onChange} />
+                  <input type="text" className="form-control" id="etitle" name="etitle" value={note.etitle} aria-describedby="emailHelp" onChange={onChange}  required minLength={8}/>
                 </div>
                 <div className="mb-3">
                   <label htmlFor="description" className="form-label">Description</label>
-                  <input type="text" className="form-control" id="edescription" name="edescription" value={note.edescription} onChange={onChange} />
+                  <input type="text" className="form-control" id="edescription" name="edescription" value={note.edescription} onChange={onChange}  required minLength={8}/>
                 </div>
                 <div className="mb-3">
                   <label htmlFor="tag" className="form-label">Tag</label>
-                  <input type="text" className="form-control" id="etag" name="etag" value={note.etag} onChange={onChange} />
+                  <input type="text" className="form-control" id="etag" name="etag" value={note.etag} onChange={onChange}  required minLength={8}/>
                 </div>
               </form>
             </div>
             <div className="modal-footer">
               <button ref={refClose} type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" className="btn btn-primary" onClick={handleClick}>Save changes</button>
+              <button disabled={note.etag.length <= 8 || note.edescription.length <=8 || note.etitle.length <=8} type="button" className="btn btn-primary" onClick={handleClick}>Save changes</button>
             </div>
           </div>
         </div>
