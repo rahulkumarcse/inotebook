@@ -5,23 +5,25 @@ import AddNote from './AddNote';
 
 function Notes() {
   const context = useContext(NoteContext);
-  const { notes, getNotes } = context
+  const { notes, getNotes ,editNote } = context
   useEffect(() => {
     getNotes()
-  }, [])
+    // eslint-disable-next-line
+  },[])
   const ref = useRef(null)
   const refClose = useRef(null)
 
-  const [note, setNote] = useState({ etitle: "", edescription: "", etag: "" })
+  const [note, setNote] = useState({id:"", etitle: "", edescription: "", etag: "" })
 
 
 
   const updateNote = (currentNote) => {
     ref.current.click();
-    setNote({ etitle: currentNote.title, edescription: currentNote.description, etag: currentNote.tag });
+    setNote({ id:currentNote.id, etitle: currentNote.title, edescription: currentNote.description, etag: currentNote.tag });
   }
   const handleClick = (e) => {
-    console.log("Handling click...", note)
+    console.log("Handling update...", note)
+    editNote(note.id,note.etitle,note.edescription,note.etag)
     refClose.current.click();
   }
   const onChange = (e) => {

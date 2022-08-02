@@ -36,8 +36,8 @@ public class NotesController {
     }
 
     @PutMapping("/updateNote/{noteId}")
-    private  ResponseEntity<?> updateNote(@RequestHeader String token, @PathVariable String notesId ,@RequestBody AddNotesDto addNotesDto){
-        List<Object> regResult = notesService.updateNotes(token,notesId,addNotesDto);
+    private  ResponseEntity<?> updateNote(@RequestHeader String token, @PathVariable String noteId ,@RequestBody AddNotesDto addNotesDto){
+        List<Object> regResult = notesService.updateNotes(token,noteId,addNotesDto);
         if(regResult.get(0).toString() .equals("1")){
             return new ResponseEntity<>(regResult.get(1),HttpStatus.OK);
         }
