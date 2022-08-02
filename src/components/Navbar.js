@@ -1,11 +1,16 @@
 import React,{useEffect} from 'react';
-import {Link,useLocation} from 'react-router-dom';
+import {Link,useLocation,useNavigate} from 'react-router-dom';
 
 function Navbar() {
   let location = useLocation();
-
+  let navigate = useNavigate();
   useEffect(() => {
   }, [location]);
+
+  const handleLogout = () =>{
+    localStorage.removeItem('token')
+    navigate("/login")
+  }
   return (
    
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -22,7 +27,7 @@ function Navbar() {
               <li className="nav-item">
                 <Link className={`nav-link ${location.pathname==="/about"?"active":""}`} to="/about">About</Link>
               </li>
-              <li className="nav-item dropdown">
+              {/* <li className="nav-item dropdown">
                 <a className="nav-link dropdown-toggle disabled" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Utility
                 </a>
@@ -32,15 +37,15 @@ function Navbar() {
                   <li><hr className="dropdown-divider" /></li>
                   <li><a className="dropdown-item" href="/chaddi">Chaddi</a></li>
                 </ul>
-              </li>
-              <li className="nav-item">
+              </li> */}
+              {/* <li className="nav-item">
                 <a className="nav-link disabled">Disabled Testing</a>
-              </li>
+              </li> */}
             </ul>
-            <form className="d-flex" role="search">
+            {!localStorage.getItem('token')?<form className="d-flex" role="search">
               <Link className="btn btn-primary mx-2" to="/login" roles="button">Login</Link>
               <Link className="btn btn-primary mx-2" to="/signup"   roles="button">Signup</Link>
-            </form>
+            </form>:<button className='btn btn-primary' onClick={handleLogout}>Logout</button>}
           </div>
         </div>
       </nav>
