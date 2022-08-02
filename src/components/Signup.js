@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from "react-router-dom";
-const Signup = () => {
+const Signup = (props) => {
     const [credentials, setCredentials] = useState({ name :"",email: "", password: "" ,cpassword:""})
     const {name,email,password,cpassword} = credentials
     const onChange = (e) => {
@@ -20,24 +20,26 @@ const Signup = () => {
         if (response.status === 200) {
             localStorage.setItem('token', result)
             navigate("/")
+            props.showAlert("You are registered","success")
         }
         else {
-            alert("Please enter correct credetials")
+            props.showAlert("Please fill proper details","warning")
         }
 
     }
     return (
         <div>
             <form onSubmit={handleSubmit}>
+            <div className="mb-3">
+                    <label htmlFor="name" className="form-label">Name</label>
+                    <input type="text" className="form-control" id="name" name="name" onChange={onChange} value={credentials.name}  />
+                </div>
                 <div className="mb-3">
                     <label htmlFor="email" className="form-label">Email address</label>
-                    <input type="email" className="form-control" id="email" value={credentials.email} onChange={onChange} name="email" aria-describedby="emailHelp" required minLength={8}/>
+                    <input type="email" className="form-control" id="email" value={credentials.email} onChange={onChange} name="email" aria-describedby="emailHelp" />
                     <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
                 </div>
-                <div className="mb-3">
-                    <label htmlFor="name" className="form-label">Name</label>
-                    <input type="text" className="form-control" id="name" name="name" onChange={onChange} value={credentials.name}  required minLength={8}/>
-                </div>
+                
                 <div className="mb-3">
                     <label htmlFor="password" className="form-label">Password</label>
                     <input type="password" className="form-control" id="password" name="password" onChange={onChange} value={credentials.password}  required minLength={8} />
